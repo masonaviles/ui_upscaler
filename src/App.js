@@ -124,9 +124,10 @@ const App = () => {
           </select>
         </div>
         <div>
-          <label htmlFor="noise-cancellation" className="font-bold">
+          <label htmlFor="noise-cancellation" className="mr-2 font-bold">
             Noise Cancellation:
           </label>
+          <span>{noiseCancellation}</span>
           <input
             type="range"
             id="noise-cancellation"
@@ -138,9 +139,10 @@ const App = () => {
           />
         </div>
         <div>
-          <label htmlFor="color-enhancement" className="font-bold">
+          <label htmlFor="color-enhancement" className="mr-2 font-bold">
             Color Enhancement:
           </label>
+          <span>{colorEnhancement}</span>
           <input
             type="range"
             id="color-enhancement"
@@ -152,9 +154,10 @@ const App = () => {
           />
         </div>
         <div>
-          <label htmlFor="sharpening" className="font-bold">
+          <label htmlFor="sharpening" className="mr-2 font-bold">
             Sharpening:
           </label>
+          <span>{sharpening}</span>
           <input
             type="range"
             id="sharpening"
@@ -164,7 +167,6 @@ const App = () => {
             onChange={handleSharpeningChange}
             className="w-full"
           />
-          <span>{sharpening}</span>
         </div>
         <button
           type="submit"

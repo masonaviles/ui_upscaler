@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import './App.css';
+
 
 const App = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -7,6 +9,7 @@ const App = () => {
   const [colorEnhancement, setColorEnhancement] = useState(0);
   const [sharpening, setSharpening] = useState(0);
   const [resultImage, setResultImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileUpload = (event) => {
     setImageFile(event.target.files[0]);
@@ -48,11 +51,14 @@ const App = () => {
     };
 
     try {
+      setIsLoading(true);
       const response = await fetch(url, options);
       const result = await response.blob();
       setResultImage(URL.createObjectURL(result));
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -60,28 +66,42 @@ const App = () => {
     if (resultImage) {
       const link = document.createElement('a');
       link.href = resultImage;
-      link.download = 'upscaled_image.jpg';
+      const originalFileName = imageFile.name;
+      const newFileName = originalFileName.replace(/\.[^/.]+$/, "") + "_x2.png";
+      link.download = newFileName;
       link.click();
     }
   };
+  
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="container p-4 mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="image-upload">Upload Image:</label>
+          <label htmlFor="image-upload" className="font-bold">
+            Upload Image:
+          </label>
           <input type="file" id="image-upload" onChange={handleFileUpload} />
         </div>
         <div>
-          <label htmlFor="size-factor">Upscale Factor:</label>
-          <select id="size-factor" value={sizeFactor} onChange={handleSizeFactorChange}>
+          <label htmlFor="size-factor" className="font-bold">
+            Upscale Factor:
+          </label>
+          <select
+            id="size-factor"
+            value={sizeFactor}
+            onChange={handleSizeFactorChange}
+            className="w-full p-2 bg-gray-100 border border-gray-300 rounded"
+          >
             <option value={2}>2x</option>
             <option value={3}>3x</option>
             <option value={4}>4x</option>
           </select>
         </div>
         <div>
-          <label htmlFor="noise-cancellation">Noise Cancellation:</label>
+          <label htmlFor="noise-cancellation" className="font-bold">
+            Noise Cancellation:
+          </label>
           <input
             type="range"
             id="noise-cancellation"
@@ -89,10 +109,13 @@ const App = () => {
             max={100}
             value={noiseCancellation}
             onChange={handleNoiseCancellationChange}
+            className="w-full"
           />
         </div>
         <div>
-          <label htmlFor="color-enhancement">Color Enhancement:</label>
+          <label htmlFor="color-enhancement" className="font-bold">
+            Color Enhancement:
+          </label>
           <input
             type="range"
             id="color-enhancement"
@@ -100,10 +123,13 @@ const App = () => {
             max={100}
             value={colorEnhancement}
             onChange={handleColorEnhancementChange}
+            className="w-full"
           />
         </div>
         <div>
-          <label htmlFor="sharpening">Sharpening:</label>
+          <label htmlFor="sharpening" className="font-bold">
+            Sharpening:
+          </label>
           <input
             type="range"
             id="sharpening"
@@ -111,14 +137,26 @@ const App = () => {
             max={100}
             value={sharpening}
             onChange={handleSharpeningChange}
+            className="w-full"
           />
+          <span>{sharpening}</span>
         </div>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          {isLoading ? 'Loading...' : 'Submit'}
+        </button>
       </form>
       {resultImage && (
-        <div>
-          <img src={resultImage} alt="Upscaled Image" />
-          <button onClick={handleSaveImage}>Save Image</button>
+        <div className="mt-4">
+          <img src={resultImage} alt="Upscaled Image" className="mb-4" />
+          <button
+            onClick={handleSaveImage}
+            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+          >
+            Save Image
+          </button>
         </div>
       )}
     </div>

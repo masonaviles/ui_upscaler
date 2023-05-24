@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import './App.css';
-
+import ImageUploader from "./components/ImageUploader";
+import SettingsForm from "./components/SettingsForm";
+import ResultImage from "./components/ResultImage";
+import LoadingSpinner from "./components/LoadingSpinner";
+import "./App.css";
 
 const App = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -98,96 +101,32 @@ const App = () => {
   };
   
   
-
-  return (
-    <div className="container w-1/2 p-4 mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="image-upload" className="font-bold">
-            Upload Image:
-          </label>
-          <input type="file" id="image-upload" onChange={handleFileUpload} />
-        </div>
-        <div>
-          <label htmlFor="size-factor" className="font-bold">
-            Upscale Factor:
-          </label>
-          <select
-            id="size-factor"
-            value={sizeFactor}
-            onChange={handleSizeFactorChange}
-            className="w-full p-2 bg-gray-100 border border-gray-300 rounded"
-          >
-            <option value={2}>2x</option>
-            <option value={3}>3x</option>
-            <option value={4}>4x</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="noise-cancellation" className="mr-2 font-bold">
-            Noise Cancellation:
-          </label>
-          <span>{noiseCancellation}</span>
-          <input
-            type="range"
-            id="noise-cancellation"
-            min={0}
-            max={100}
-            value={noiseCancellation}
-            onChange={handleNoiseCancellationChange}
-            className="w-full"
-          />
-        </div>
-        <div>
-          <label htmlFor="color-enhancement" className="mr-2 font-bold">
-            Color Enhancement:
-          </label>
-          <span>{colorEnhancement}</span>
-          <input
-            type="range"
-            id="color-enhancement"
-            min={0}
-            max={100}
-            value={colorEnhancement}
-            onChange={handleColorEnhancementChange}
-            className="w-full"
-          />
-        </div>
-        <div>
-          <label htmlFor="sharpening" className="mr-2 font-bold">
-            Sharpening:
-          </label>
-          <span>{sharpening}</span>
-          <input
-            type="range"
-            id="sharpening"
-            min={0}
-            max={100}
-            value={sharpening}
-            onChange={handleSharpeningChange}
-            className="w-full"
-          />
-        </div>
-        <button
-          type="submit"
-          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
-      </form>
-      {resultImage && (
-        <div className="mt-4">
-          <button
-            onClick={handleSaveImage}
-            className="px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
-          >
-            Save Image
-          </button>
-          <img src={resultImage} alt="Upscaled Image" className="h-auto max-w-full mb-4" />
-        </div>
-      )}
-    </div>
-  );
+// Render
+return (
+  <div className="container w-1/2 p-4 mx-auto">
+    <ImageUploader handleFileUpload={handleFileUpload} />
+    <SettingsForm
+      sizeFactor={sizeFactor}
+      handleSizeFactorChange={handleSizeFactorChange}
+      noiseCancellation={noiseCancellation}
+      handleNoiseCancellationChange={handleNoiseCancellationChange}
+      colorEnhancement={colorEnhancement}
+      handleColorEnhancementChange={handleColorEnhancementChange}
+      sharpening={sharpening}
+      handleSharpeningChange={handleSharpeningChange}
+      isLoading={isLoading}
+      handleSubmit={handleSubmit}
+    />
+    {isLoading ? (
+      <LoadingSpinner />
+    ) : resultImage ? (
+      <ResultImage
+        resultImage={resultImage}
+        handleSaveImage={handleSaveImage}
+      />
+    ) : null}
+  </div>
+);
 };
 
 export default App;

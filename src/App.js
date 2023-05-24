@@ -67,15 +67,40 @@ const App = () => {
       const link = document.createElement('a');
       link.href = resultImage;
       const originalFileName = imageFile.name;
-      const newFileName = originalFileName.replace(/\.[^/.]+$/, "") + "_x2.png";
+      let upscaleFactor = '';
+  
+      if (sizeFactor === 2) {
+        upscaleFactor = '_x2';
+      } else if (sizeFactor === 3) {
+        upscaleFactor = '_x3';
+      } else if (sizeFactor === 4) {
+        upscaleFactor = '_x4';
+      }
+  
+      let additionalInfo = '';
+  
+      if (noiseCancellation > 0) {
+        additionalInfo += `_noise${noiseCancellation}`;
+      }
+  
+      if (colorEnhancement > 0) {
+        additionalInfo += `_color${colorEnhancement}`;
+      }
+  
+      if (sharpening > 0) {
+        additionalInfo += `_sharp${sharpening}`;
+      }
+  
+      const newFileName = originalFileName.replace(/\.[^/.]+$/, "") + upscaleFactor + additionalInfo + ".png";
       link.download = newFileName;
       link.click();
     }
   };
   
+  
 
   return (
-    <div className="container p-4 mx-auto">
+    <div className="container w-1/2 p-4 mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="image-upload" className="font-bold">
@@ -150,13 +175,13 @@ const App = () => {
       </form>
       {resultImage && (
         <div className="mt-4">
-          <img src={resultImage} alt="Upscaled Image" className="mb-4" />
           <button
             onClick={handleSaveImage}
-            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+            className="px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
           >
             Save Image
           </button>
+          <img src={resultImage} alt="Upscaled Image" className="h-auto max-w-full mb-4" />
         </div>
       )}
     </div>

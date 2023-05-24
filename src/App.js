@@ -6,6 +6,7 @@ const App = () => {
   const [noiseCancellation, setNoiseCancellation] = useState(0);
   const [colorEnhancement, setColorEnhancement] = useState(0);
   const [sharpening, setSharpening] = useState(0);
+  const [resultImage, setResultImage] = useState(null);
 
   const handleFileUpload = (event) => {
     setImageFile(event.target.files[0]);
@@ -48,10 +49,19 @@ const App = () => {
 
     try {
       const response = await fetch(url, options);
-      const result = await response.text();
-      console.log(result);
+      const result = await response.blob();
+      setResultImage(URL.createObjectURL(result));
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleSaveImage = () => {
+    if (resultImage) {
+      const link = document.createElement('a');
+      link.href = resultImage;
+      link.download = 'upscaled_image.jpg';
+      link.click();
     }
   };
 
@@ -105,6 +115,12 @@ const App = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+      {resultImage && (
+        <div>
+          <img src={resultImage} alt="Upscaled Image" />
+          <button onClick={handleSaveImage}>Save Image</button>
+        </div>
+      )}
     </div>
   );
 };

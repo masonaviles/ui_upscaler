@@ -13,7 +13,7 @@ const SettingsForm = ({
   handleSubmit,
 }) => {
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4" netlify>
       <div>
         <label htmlFor="size-factor" className="mr-2 font-bold">
           Upscale Factor:

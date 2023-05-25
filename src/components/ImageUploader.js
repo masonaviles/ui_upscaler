@@ -2,11 +2,11 @@ import React from "react";
 
 const ImageUploader = ({ handleFileUpload }) => {
   return (
-    <div className="p-2 mb-4 border border-gray-400 rounded">
+    <div className="px-2 py-3 mb-4 border border-gray-400 rounded">
       <label htmlFor="image-upload" className="mr-2 font-bold">
         Upload Image:
       </label>
-      <input type="file" id="image-upload" onChange={handleFileUpload} />
+      <input type="file" id="image-upload" className="w-full" onChange={handleFileUpload} />
     </div>
   );
 };

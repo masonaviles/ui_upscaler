@@ -15,21 +15,21 @@ const SettingsForm = ({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4">
       <div>
-        <label htmlFor="size-factor" className="font-bold">
+        <label htmlFor="size-factor" className="mr-2 font-bold">
           Upscale Factor:
         </label>
         <select
           id="size-factor"
           value={sizeFactor}
           onChange={handleSizeFactorChange}
-          className="w-full p-2 bg-gray-100 border border-gray-300 rounded sm:w-auto"
+          className="w-full p-2 mt-2 bg-gray-100 border border-gray-300 rounded"
         >
           <option value={2}>2x</option>
           <option value={3}>3x</option>
           <option value={4}>4x</option>
         </select>
       </div>
-      <div>
+      <div className="my-2">
         <label htmlFor="noise-cancellation" className="mr-2 font-bold">
           Noise Cancellation:
         </label>
@@ -41,7 +41,7 @@ const SettingsForm = ({
           max={100}
           value={noiseCancellation}
           onChange={handleNoiseCancellationChange}
-          className="w-full"
+          className="w-full mt-2"
         />
       </div>
       <div>
@@ -56,10 +56,10 @@ const SettingsForm = ({
           max={100}
           value={colorEnhancement}
           onChange={handleColorEnhancementChange}
-          className="w-full"
+          className="w-full mt-2"
         />
       </div>
-      <div>
+      <div className="my-2">
         <label htmlFor="sharpening" className="mr-2 font-bold">
           Sharpening:
         </label>
@@ -71,7 +71,7 @@ const SettingsForm = ({
           max={100}
           value={sharpening}
           onChange={handleSharpeningChange}
-          className="w-full"
+          className="w-full mt-2"
         />
       </div>
       <button

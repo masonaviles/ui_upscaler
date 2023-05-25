@@ -104,29 +104,31 @@ const App = () => {
   
 // Render
 return (
-  <div className="container w-full p-4 mx-auto mt-5 border rounded md:max-w-lg lg:max-w-xl xl:max-w-2xl bg-gray-50 drop-shadow-xl sm:mx-2 md:mx-auto lg:mx-auto">
-    <Header />
-    <ImageUploader handleFileUpload={handleFileUpload} />
-    <SettingsForm
-      sizeFactor={sizeFactor}
-      handleSizeFactorChange={handleSizeFactorChange}
-      noiseCancellation={noiseCancellation}
-      handleNoiseCancellationChange={handleNoiseCancellationChange}
-      colorEnhancement={colorEnhancement}
-      handleColorEnhancementChange={handleColorEnhancementChange}
-      sharpening={sharpening}
-      handleSharpeningChange={handleSharpeningChange}
-      isLoading={isLoading}
-      handleSubmit={handleSubmit}
-    />
-    {isLoading ? (
-      <LoadingSpinner />
-    ) : resultImage ? (
-      <ResultImage
-        resultImage={resultImage}
-        handleSaveImage={handleSaveImage}
+  <div className="container">
+    <div className="w-4/5 p-4 mx-auto mt-5 border rounded lg:mx-auto sm:max-w-md lg:max-w-xl xl:max-w-2xl bg-gray-50 drop-shadow-xl">
+      <Header />
+      <ImageUploader handleFileUpload={handleFileUpload} />
+      <SettingsForm
+        sizeFactor={sizeFactor}
+        handleSizeFactorChange={handleSizeFactorChange}
+        noiseCancellation={noiseCancellation}
+        handleNoiseCancellationChange={handleNoiseCancellationChange}
+        colorEnhancement={colorEnhancement}
+        handleColorEnhancementChange={handleColorEnhancementChange}
+        sharpening={sharpening}
+        handleSharpeningChange={handleSharpeningChange}
+        isLoading={isLoading}
+        handleSubmit={handleSubmit}
       />
-    ) : null}
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : resultImage ? (
+        <ResultImage
+          resultImage={resultImage}
+          handleSaveImage={handleSaveImage}
+        />
+      ) : null}
+    </div>
   </div>
 );
 };

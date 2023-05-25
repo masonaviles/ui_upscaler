@@ -11,7 +11,7 @@ const ResultImage = ({ resultImage, handleSaveImage }) => {
       </button>
       <img
         src={resultImage}
-        alt="Upscaled Image"
+        alt="Upscaled"
         className="h-auto max-w-full mb-4"
       />
     </div>

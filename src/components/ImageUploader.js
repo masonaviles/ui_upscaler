@@ -6,7 +6,7 @@ const ImageUploader = ({ handleFileUpload }) => {
       <label htmlFor="image-upload" className="mr-2 font-bold">
         Upload Image:
       </label>
-      <input type="file" id="image-upload" className="w-full" onChange={handleFileUpload} />
+      <input type="file" id="image-upload" className="w-full mt-1" onChange={handleFileUpload} />
     </div>
   );
 };

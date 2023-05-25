@@ -9,3 +9,6 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Change the title here
+document.title = 'Image AI Upscaler';

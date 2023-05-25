@@ -13,7 +13,7 @@ const SettingsForm = ({
   handleSubmit,
 }) => {
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4">
       <div>
         <label htmlFor="size-factor" className="font-bold">
           Upscale Factor:
@@ -22,7 +22,7 @@ const SettingsForm = ({
           id="size-factor"
           value={sizeFactor}
           onChange={handleSizeFactorChange}
-          className="w-full p-2 bg-gray-100 border border-gray-300 rounded"
+          className="w-full p-2 bg-gray-100 border border-gray-300 rounded sm:w-auto"
         >
           <option value={2}>2x</option>
           <option value={3}>3x</option>

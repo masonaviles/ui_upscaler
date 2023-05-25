@@ -5,10 +5,11 @@ const ResultImage = ({ resultImage, handleSaveImage }) => {
     <div className="mt-4">
       <button
         onClick={handleSaveImage}
-        className="px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+        className="px-4 py-2 mx-auto mb-4 text-white bg-blue-500 rounded sm:mx-0 sm:ml-auto hover:bg-blue-600"
       >
         Save Image
       </button>
+
       <img
         src={resultImage}
         alt="Upscaled"

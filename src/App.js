@@ -4,6 +4,7 @@ import ImageUploader from "./components/ImageUploader";
 import SettingsForm from "./components/SettingsForm";
 import ResultImage from "./components/ResultImage";
 import LoadingSpinner from "./components/LoadingSpinner";
+import AdSense from 'react-adsense';
 import "./App.css";
 
 const App = () => {
@@ -129,6 +130,13 @@ return (
         />
       ) : null}
     </div>
+    <AdSense.Google
+        client="pub-9649393144931809"
+        slot="your-ad-unit-id"
+        style={{ display: 'block' }}
+        format="auto"
+        responsive="true"
+      />
   </div>
 );
 };

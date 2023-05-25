@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Header.css";
 
 const Header = () => {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
@@ -13,10 +14,10 @@ const Header = () => {
       <div className={`p-2 bg-white rounded ${isDescriptionVisible ? 'w-full' : 'w-10'}`}>
         <div className="flex items-center">
           <button
-            className="flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full"
+            className="flex items-center justify-center w-6 h-6 transition-transform duration-300 bg-gray-200 rounded-full"
             onClick={toggleDescription}
           >
-            <span className="text-gray-600 text-l">{isDescriptionVisible ? "-" : "?"}</span>
+            <span className={`text-gray-600 text-l ${isDescriptionVisible ? 'rotate-45' : 'rotate-0'}`}>?</span>
           </button>
         </div>
         {isDescriptionVisible && (

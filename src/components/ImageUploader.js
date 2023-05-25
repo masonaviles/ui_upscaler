@@ -2,8 +2,8 @@ import React from "react";
 
 const ImageUploader = ({ handleFileUpload }) => {
   return (
-    <div>
-      <label htmlFor="image-upload" className="font-bold">
+    <div className="p-2 mb-4 border border-gray-400 rounded">
+      <label htmlFor="image-upload" className="mr-2 font-bold">
         Upload Image:
       </label>
       <input type="file" id="image-upload" onChange={handleFileUpload} />

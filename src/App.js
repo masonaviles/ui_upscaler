@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from "./components/Header";
 import ImageUploader from "./components/ImageUploader";
 import SettingsForm from "./components/SettingsForm";
 import ResultImage from "./components/ResultImage";
@@ -103,7 +104,8 @@ const App = () => {
   
 // Render
 return (
-  <div className="container w-1/2 p-4 mx-auto">
+  <div className="container w-1/2 p-4 mx-auto mt-5 border rounded bg-gray-50 drop-shadow-xl">
+    <Header />
     <ImageUploader handleFileUpload={handleFileUpload} />
     <SettingsForm
       sizeFactor={sizeFactor}

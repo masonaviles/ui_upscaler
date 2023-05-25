@@ -105,7 +105,7 @@ const App = () => {
 // Render
 return (
   <div className="container h-screen mx-auto">
-    <div className="w-4/5 p-4 mx-auto mt-5 border rounded lg:mx-auto bg-gray-50 drop-shadow-xl">
+    <div className="w-2/3 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
       <Header />
       <ImageUploader handleFileUpload={handleFileUpload} />
       <SettingsForm

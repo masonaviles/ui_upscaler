@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import '@testing-library/jest-dom/extend-expect';
-
 
 const UsageTracker = ({ handleSubmit }) => {
   const [clickCount, setClickCount] = useState(0);

@@ -22,12 +22,15 @@ const Header = () => {
               <h2 className="mt-2">
                 <b>How to use Image AI Upscaler</b>
               </h2>
-              <ol className="pl-6 list-decimal">
+              <ol className="pl-6 mb-2 list-decimal">
                 <li className="mb-2">Upload your image.</li>
                 <li className="mb-2">Choose from a range of enhancement settings, such as sharpness adjustments or increasing the level of detail.</li>
                 <li className="mb-2">Click the "Upscale & Enhance" button and let the AI algorithms do their magic.</li>
                 <li>Within seconds, receive the enhanced image, ready for download and sharing.</li>
               </ol>
+              <p className="text-center">- - -</p>
+              <p>** <i>The free version of this app allows 5 uses per day</i></p>
+              <p><b>** Pro Version coming soon...</b></p>
             </div>
           )}
         </div>

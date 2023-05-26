@@ -4,7 +4,6 @@ import ImageUploader from "./components/ImageUploader";
 import SettingsForm from "./components/SettingsForm";
 import ResultImage from "./components/ResultImage";
 import LoadingSpinner from "./components/LoadingSpinner";
-import UsageTracker from "./components/UsageTracker";
 import AdSense from 'react-adsense';
 import "./App.css";
 
@@ -121,7 +120,6 @@ const App = () => {
           isLoading={isLoading}
           handleSubmit={handleSubmit}
         />
-        <UsageTracker handleSubmit={handleSubmit} />
         {isLoading ? (
           <LoadingSpinner />
         ) : resultImage ? (

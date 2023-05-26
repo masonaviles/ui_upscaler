@@ -42,7 +42,9 @@ const App = () => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
 
     // Check if user is in incognito mode
     if (isGeneralIncognito || isMobileChromeIncognito || isMobileSafariIncognito) {

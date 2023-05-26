@@ -18,9 +18,15 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
-  "display": "browser",
+  "start_url": "/",
+  "display": "standalone",
   "theme_color": "#3498db",
-  "background_color": "#ffffff"
-
+  "background_color": "#ffffff",
+  "description": "Enhance and upscale images using AI algorithms.",
+  "scope": "/",
+  "orientation": "portrait",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "categories": ["Utility"],
+  "lang": "en-US"
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const SettingsForm = ({
   sizeFactor,
@@ -14,7 +13,6 @@ const SettingsForm = ({
   handleSubmit,
 }) => {
   const [remainingTime, setRemainingTime] = useState(15 * 60); // 15 minutes in seconds
-  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,10 +23,6 @@ const SettingsForm = ({
       clearInterval(timer);
     };
   }, []);
-
-  const handleCaptchaChange = (value) => {
-    setIsCaptchaVerified(!!value);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4" netlify="true">
@@ -92,20 +86,12 @@ const SettingsForm = ({
           className="w-full mt-2"
         />
       </div>
-      <ReCAPTCHA
-        sitekey="6Lfl3D8mAAAAANqm-CKEGTlDMPVUYF1Swt_xickj"
-        onChange={handleCaptchaChange}
-      />
       <button
         type="submit"
         className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-        disabled={isLoading || remainingTime <= 0 || !isCaptchaVerified}
+        disabled={isLoading || remainingTime <= 0}
       >
-        {isLoading
-          ? "Loading..."
-          : remainingTime <= 0
-          ? "Max times reached"
-          : "Upscale & Enhance"}
+        {isLoading ? "Loading..." : remainingTime <= 0 ? "Max times reached" : "Upscale & Enhance"}
       </button>
     </form>
   );

@@ -7,7 +7,9 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import "./App.css";
 
 const App = () => {
-  const [isIncognito, setIsIncognito] = useState(false);
+  const [isGeneralIncognito, setIsGeneralIncognito] = useState(false);
+  const [isMobileChromeIncognito, setIsMobileChromeIncognito] = useState(false);
+  const [isMobileSafariIncognito, setIsMobileSafariIncognito] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [sizeFactor, setSizeFactor] = useState(2);
   const [noiseCancellation, setNoiseCancellation] = useState(0);
@@ -43,7 +45,7 @@ const App = () => {
     event.preventDefault();
 
     // Check if user is in incognito mode
-    if (!isIncognito) {
+    if (isGeneralIncognito || isMobileChromeIncognito || isMobileSafariIncognito) {
       alert("API requests are not allowed in incognito mode.");
       return;
     }
@@ -133,63 +135,52 @@ const App = () => {
   };
 
   useEffect(() => {
-    try {
-      localStorage.setItem('test', 'test');
-      localStorage.removeItem('test');
-    } catch (error) {
-      setIsIncognito(true);
-    }
+    const checkGeneralIncognito = () => {
+      try {
+        localStorage.setItem('test', 'test');
+        localStorage.removeItem('test');
+      } catch (error) {
+        setIsGeneralIncognito(true);
+      }
+    };
+  
+    checkGeneralIncognito();
   }, []);
 
   useEffect(() => {
-    const isMobileChromeIncognito = () => {
-      return new Promise((resolve) => {
-        if ('storage' in navigator && 'estimate' in navigator.storage) {
-          navigator.storage.estimate().then(({ quota }) => {
-            resolve(quota < 120000000); // Quota less than 120MB indicates incognito mode in Chrome
-          });
-        } else {
-          resolve(false); // Storage API not supported, cannot determine incognito mode
-        }
-      });
-    };
-  
-    const isMobileSafariIncognito = () => {
-      return new Promise((resolve) => {
-        const fs = window.webkitRequestFileSystem;
-        if (!fs) {
-          resolve(false); // FileSystem API not supported, cannot determine incognito mode
-        } else {
-          fs(
-            window.TEMPORARY,
-            100,
-            () => resolve(false), // FileSystem API supported, not in incognito mode
-            () => resolve(true) // FileSystem API supported, in incognito mode
-          );
-        }
-      });
-    };
-  
-    const checkIncognitoMode = async () => {
-      let isInIncognito = false;
-  
-      // Check for mobile Chrome
-      if (navigator.userAgent.includes('Chrome')) {
-        isInIncognito = await isMobileChromeIncognito();
+    const checkMobileChromeIncognito = async () => {
+      if ('storage' in navigator && 'estimate' in navigator.storage) {
+        const { usage, quota } = await navigator.storage.estimate();
+        setIsMobileChromeIncognito(usage < quota * 0.1); // Check if usage is less than 10% of quota
+      } else {
+        setIsMobileChromeIncognito(false); // Storage API not supported, cannot determine incognito mode
       }
-      
-      // Check for mobile Safari
-      if (navigator.userAgent.includes('Safari')) {
-        isInIncognito = await isMobileSafariIncognito();
-      }
-  
-      setIsIncognito(isInIncognito);
     };
-  
-    checkIncognitoMode();
-  }, []);
-  
+    
+    const checkMobileSafariIncognito = () => {
+      if ('webkitTemporaryStorage' in window) {
+        window.webkitTemporaryStorage.queryUsageAndQuota(
+          (usedBytes, grantedBytes) => {
+            setIsMobileSafariIncognito(usedBytes === 0 && grantedBytes === 0); // Check if used and granted bytes are both 0
+          },
+          () => {
+            setIsMobileSafariIncognito(false); // Error occurred, cannot determine incognito mode
+          }
+        );
+      } else {
+        setIsMobileSafariIncognito(false); // Temporary Storage API not supported, cannot determine incognito mode
+      }
+    };
+    
 
+    checkMobileChromeIncognito();
+    checkMobileSafariIncognito();
+  }, []);
+
+  console.log('isGeneralIncognito:', isGeneralIncognito);
+  console.log('isMobileChromeIncognito:', isMobileChromeIncognito);
+  console.log('isMobileSafariIncognito:', isMobileSafariIncognito);
+  
   useEffect(() => {
     const storedApiRequests = localStorage.getItem('apiRequests');
     console.log('Retrieved API requests:', storedApiRequests);
@@ -204,7 +195,7 @@ const App = () => {
     localStorage.setItem('apiRequests', apiRequests.toString());
   }, [apiRequests]);
 
-  if (!isIncognito) {
+  if (isGeneralIncognito || isMobileChromeIncognito || isMobileSafariIncognito) {
     return (
       <div className="container h-screen mx-auto">
         <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">

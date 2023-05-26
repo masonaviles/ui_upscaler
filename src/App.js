@@ -15,6 +15,7 @@ const App = () => {
   const [sharpening, setSharpening] = useState(0);
   const [resultImage, setResultImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [apiRequests, setApiRequests] = useState(0);
 
   const handleFileUpload = (event) => {
     setImageFile(event.target.files[0]);
@@ -39,6 +40,11 @@ const App = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (apiRequests >= 5) {
+      alert("You have reached the maximum limit of API requests for today.");
+      return;
+    }
+
     const url = 'https://ai-picture-upscaler.p.rapidapi.com/supersize-image';
     const data = new FormData();
     data.append('image', imageFile);
@@ -61,6 +67,7 @@ const App = () => {
       const result = await response.blob();
       setResultImage(URL.createObjectURL(result));
       setIsLoading(false);
+      setApiRequests((prevRequests) => prevRequests + 1);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -108,6 +115,9 @@ const App = () => {
       <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
         <Header />
         <ImageUploader handleFileUpload={handleFileUpload} />
+        <div className="mt-4 text-center">
+          API Requests: {apiRequests} / 5
+        </div>
         <SettingsForm
           sizeFactor={sizeFactor}
           handleSizeFactorChange={handleSizeFactorChange}
@@ -119,6 +129,7 @@ const App = () => {
           handleSharpeningChange={handleSharpeningChange}
           isLoading={isLoading}
           handleSubmit={handleSubmit}
+          isSubmitDisabled={apiRequests >= 5}
         />
         {isLoading ? (
           <LoadingSpinner />
@@ -130,15 +141,14 @@ const App = () => {
         ) : null}
       </div>
       <AdSense.Google
-          client="pub-9649393144931809"
-          slot="your-ad-unit-id"
-          style={{ display: 'block' }}
-          format="auto"
-          responsive="true"
-        />
+        client="pub-9649393144931809"
+        slot="your-ad-unit-id"
+        style={{ display: 'block' }}
+        format="auto"
+        responsive="true"
+      />
     </div>
   );
-
 };
 
 export default App;

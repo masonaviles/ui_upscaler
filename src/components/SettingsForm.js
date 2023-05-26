@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const SettingsForm = ({
   sizeFactor,
@@ -12,6 +12,18 @@ const SettingsForm = ({
   isLoading,
   handleSubmit,
 }) => {
+  const [remainingTime, setRemainingTime] = useState(15 * 60); // 15 minutes in seconds
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRemainingTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4" netlify>
       <div>
@@ -77,9 +89,9 @@ const SettingsForm = ({
       <button
         type="submit"
         className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-        disabled={isLoading}
+        disabled={isLoading || remainingTime <= 0}
       >
-        {isLoading ? "Loading..." : "Upscale & Enhance"}
+        {isLoading ? "Loading..." : remainingTime <= 0 ? "Max times reached" : "Upscale & Enhance"}
       </button>
     </form>
   );

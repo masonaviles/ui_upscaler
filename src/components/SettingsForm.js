@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useRecaptcha } from "./Recaptcha";
+
 
 const SettingsForm = ({
   sizeFactor,
@@ -13,6 +15,7 @@ const SettingsForm = ({
   handleSubmit,
 }) => {
   const [remainingTime, setRemainingTime] = useState(15 * 60); // 15 minutes in seconds
+  const { executeRecaptcha } = useRecaptcha(); // Use the executeRecaptcha function from the useRecaptcha hook
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -24,8 +27,18 @@ const SettingsForm = ({
     };
   }, []);
 
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    // Execute reCAPTCHA and obtain the response token
+    executeRecaptcha();
+
+    // Call the handleSubmit function to handle form submission
+    handleSubmit();
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:space-y-4" netlify="true">
+    <form onSubmit={handleFormSubmit} className="flex flex-col sm:space-y-4" netlify="true">
       <div>
         <label htmlFor="size-factor" className="mr-2 font-bold">
           Upscale Factor:

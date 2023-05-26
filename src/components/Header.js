@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <header className="p-5 py-4 mb-5 bg-blue-500">
+    <header className="p-5 py-4 mb-2 bg-blue-500">
       <h1 className="mb-4 text-2xl font-bold text-center text-white">🧐 Image AI Upscaler</h1>
       <div className={`p-2 bg-white rounded ${isDescriptionVisible ? "w-full" : "w-10"}`}>
         <div className="relative flex items-start"> {/* Use items-start instead of items-center */}

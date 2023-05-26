@@ -41,6 +41,12 @@ const App = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Check if user is in incognito mode
+    if (!isIncognito) {
+      alert("API requests are not allowed in incognito mode.");
+      return;
+    }
   
     const storedApiRequests = localStorage.getItem('apiRequests');
     const storedDate = localStorage.getItem('date');
@@ -136,20 +142,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const storedApiRequests = localStorage.getItem('apiRequests');
-    console.log('Retrieved API requests:', storedApiRequests);
-  
-    if (storedApiRequests) {
-      setApiRequests(Number(storedApiRequests));
-    }
-  }, []);
-  
-  useEffect(() => {
-    console.log('Setting API requests:', apiRequests);
-    localStorage.setItem('apiRequests', apiRequests.toString());
-  }, [apiRequests]);
-
-  useEffect(() => {
     const isChromeIncognito = () => {
       return new Promise((resolve) => {
         const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
@@ -173,6 +165,20 @@ const App = () => {
 
     checkIncognitoMode();
   }, []);
+
+  useEffect(() => {
+    const storedApiRequests = localStorage.getItem('apiRequests');
+    console.log('Retrieved API requests:', storedApiRequests);
+  
+    if (storedApiRequests) {
+      setApiRequests(Number(storedApiRequests));
+    }
+  }, []);
+  
+  useEffect(() => {
+    console.log('Setting API requests:', apiRequests);
+    localStorage.setItem('apiRequests', apiRequests.toString());
+  }, [apiRequests]);
 
   if (!isIncognito) {
     return (

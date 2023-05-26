@@ -15,7 +15,7 @@ const Header = () => {
         <div className="relative flex items-start"> {/* Use items-start instead of items-center */}
           <Tooltip text={isDescriptionVisible ? "" : ""} onClick={toggleDescription} />
           {isDescriptionVisible && (
-            <div className="ml-2">
+            <div className="mt-8 ml-[-1rem]">
               <p>
                 The AI-powered app is an image upscaling and enhancement tool. Using artificial intelligence algorithms, it can enhance the quality and resolution of images.
               </p>

@@ -4,6 +4,7 @@ import ImageUploader from "./components/ImageUploader";
 import SettingsForm from "./components/SettingsForm";
 import ResultImage from "./components/ResultImage";
 import LoadingSpinner from "./components/LoadingSpinner";
+import UsageTracker from "./components/UsageTracker";
 import AdSense from 'react-adsense';
 import "./App.css";
 
@@ -102,6 +103,7 @@ const App = () => {
     }
   };
 
+  // Render
   return (
     <div className="container h-screen mx-auto">
       <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
@@ -119,6 +121,7 @@ const App = () => {
           isLoading={isLoading}
           handleSubmit={handleSubmit}
         />
+        <UsageTracker handleSubmit={handleSubmit} />
         {isLoading ? (
           <LoadingSpinner />
         ) : resultImage ? (
@@ -129,14 +132,15 @@ const App = () => {
         ) : null}
       </div>
       <AdSense.Google
-        client="pub-9649393144931809"
-        slot="your-ad-unit-id"
-        style={{ display: 'block' }}
-        format="auto"
-        responsive="true"
-      />
+          client="pub-9649393144931809"
+          slot="your-ad-unit-id"
+          style={{ display: 'block' }}
+          format="auto"
+          responsive="true"
+        />
     </div>
   );
+
 };
 
 export default App;

@@ -1,24 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import '@testing-library/jest-dom/extend-expect';
 
-const UsageTracker = () => {
-  const [usageCount, setUsageCount] = useState(0);
 
-  const incrementUsageCount = () => {
-    setUsageCount((prevCount) => prevCount + 1);
+const UsageTracker = ({ handleSubmit }) => {
+  const [clickCount, setClickCount] = useState(0);
+  const [maxClicks, setMaxClicks] = useState(2); // Adjust the maximum click limit as needed
+
+  const handleButtonClick = () => {
+    if (clickCount + 1 <= maxClicks) {
+      setClickCount(clickCount + 1);
+      handleSubmit(); // Invoke the handleSubmit function passed as a prop
+    }
   };
 
-  useEffect(() => {
-    const storedCount = localStorage.getItem('usageCount');
-    if (storedCount) {
-      setUsageCount(parseInt(storedCount));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('usageCount', usageCount.toString());
-  }, [usageCount]);
-
-  return null; // or you can render a specific component if needed
+  return (
+    <div>
+      <p>Clicks: {clickCount}</p>
+      {clickCount < maxClicks ? (
+        <button onClick={handleButtonClick}>Submit</button>
+      ) : (
+        <p>Maximum click limit reached. Access restricted.</p>
+      )}
+    </div>
+  );
 };
 
 export default UsageTracker;

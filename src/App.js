@@ -176,9 +176,12 @@ const App = () => {
 
   if (!isIncognito) {
     return (
-      <div className="container">
-        <h1>This App cannot be used in incognito mode.</h1>
-        <p>Please disable incognito mode to use this app.</p>
+      <div className="container h-screen mx-auto">
+        <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
+          <Header />
+          <h1>❌ This App cannot be used in incognito mode. ❌</h1>
+          <p><b>Please disable incognito mode to use this app.</b></p>
+        </div>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import ImageUploader from "./components/ImageUploader";
 import SettingsForm from "./components/SettingsForm";
@@ -39,19 +39,33 @@ const App = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (apiRequests >= 5) {
-      alert("You have reached the maximum limit of API requests for today.");
-      return;
+  
+    const storedApiRequests = localStorage.getItem('apiRequests');
+    const storedDate = localStorage.getItem('date');
+  
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const storedDay = Number(storedDate);
+  
+    if (storedApiRequests && currentDay === storedDay) {
+      const storedRequests = Number(storedApiRequests);
+      if (storedRequests >= 5) {
+        alert("You have reached the maximum limit of API requests for today.");
+        return;
+      }
+      setApiRequests(storedRequests + 1);
+    } else {
+      setApiRequests(1);
+      localStorage.setItem('date', currentDay.toString());
     }
-
+  
     const url = 'https://ai-picture-upscaler.p.rapidapi.com/supersize-image';
     const data = new FormData();
     data.append('image', imageFile);
     data.append('sizeFactor', sizeFactor);
     data.append('imageStyle', 'default');
     data.append('noiseCancellationFactor', noiseCancellation);
-
+  
     const options = {
       method: 'POST',
       headers: {
@@ -60,19 +74,20 @@ const App = () => {
       },
       body: data
     };
-
+  
     try {
       setIsLoading(true);
       const response = await fetch(url, options);
       const result = await response.blob();
       setResultImage(URL.createObjectURL(result));
       setIsLoading(false);
-      setApiRequests((prevRequests) => prevRequests + 1);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
   };
+  
+  
 
   const handleSaveImage = () => {
     if (resultImage) {
@@ -109,15 +124,27 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    const storedApiRequests = localStorage.getItem('apiRequests');
+    console.log('Retrieved API requests:', storedApiRequests);
+  
+    if (storedApiRequests) {
+      setApiRequests(Number(storedApiRequests));
+    }
+  }, []);
+  
+  useEffect(() => {
+    console.log('Setting API requests:', apiRequests);
+    localStorage.setItem('apiRequests', apiRequests.toString());
+  }, [apiRequests]);
+  
+
   // Render
   return (
     <div className="container h-screen mx-auto">
       <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
         <Header />
         <ImageUploader handleFileUpload={handleFileUpload} />
-        <div className="mt-4 text-center">
-          API Requests: {apiRequests} / 5
-        </div>
         <SettingsForm
           sizeFactor={sizeFactor}
           handleSizeFactorChange={handleSizeFactorChange}
@@ -139,6 +166,9 @@ const App = () => {
             handleSaveImage={handleSaveImage}
           />
         ) : null}
+        <div className="mt-4 text-center">
+          API Requests: {apiRequests} / 5
+        </div>
       </div>
       <AdSense.Google
         client="pub-9649393144931809"

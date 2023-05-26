@@ -15,7 +15,9 @@ const App = () => {
   const [sharpening, setSharpening] = useState(0);
   const [resultImage, setResultImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiRequests, setApiRequests] = useState(0);
+  const [apiRequests, setApiRequests] = useState(
+    localStorage.getItem('apiRequests') || 0
+  );
 
   const handleFileUpload = (event) => {
     setImageFile(event.target.files[0]);

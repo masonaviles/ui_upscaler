@@ -73,7 +73,7 @@ const App = () => {
       link.href = resultImage;
       const originalFileName = imageFile.name;
       let upscaleFactor = '';
-  
+
       if (sizeFactor === 2) {
         upscaleFactor = '_x2';
       } else if (sizeFactor === 3) {
@@ -81,64 +81,62 @@ const App = () => {
       } else if (sizeFactor === 4) {
         upscaleFactor = '_x4';
       }
-  
+
       let additionalInfo = '';
-  
+
       if (noiseCancellation > 0) {
         additionalInfo += `_noise${noiseCancellation}`;
       }
-  
+
       if (colorEnhancement > 0) {
         additionalInfo += `_color${colorEnhancement}`;
       }
-  
+
       if (sharpening > 0) {
         additionalInfo += `_sharp${sharpening}`;
       }
-  
+
       const newFileName = originalFileName.replace(/\.[^/.]+$/, "") + upscaleFactor + additionalInfo + ".png";
       link.download = newFileName;
       link.click();
     }
   };
-  
-  
-// Render
-return (
-  <div className="container h-screen mx-auto">
-    <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
-      <Header />
-      <ImageUploader handleFileUpload={handleFileUpload} />
-      <SettingsForm
-        sizeFactor={sizeFactor}
-        handleSizeFactorChange={handleSizeFactorChange}
-        noiseCancellation={noiseCancellation}
-        handleNoiseCancellationChange={handleNoiseCancellationChange}
-        colorEnhancement={colorEnhancement}
-        handleColorEnhancementChange={handleColorEnhancementChange}
-        sharpening={sharpening}
-        handleSharpeningChange={handleSharpeningChange}
-        isLoading={isLoading}
-        handleSubmit={handleSubmit}
-      />
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : resultImage ? (
-        <ResultImage
-          resultImage={resultImage}
-          handleSaveImage={handleSaveImage}
+
+  return (
+    <div className="container h-screen mx-auto">
+      <div className="w-11/12 p-4 mx-auto mt-5 border rounded lg:w-1/2 lg:mx-auto bg-gray-50 drop-shadow-xl">
+        <Header />
+        <ImageUploader handleFileUpload={handleFileUpload} />
+        <SettingsForm
+          sizeFactor={sizeFactor}
+          handleSizeFactorChange={handleSizeFactorChange}
+          noiseCancellation={noiseCancellation}
+          handleNoiseCancellationChange={handleNoiseCancellationChange}
+          colorEnhancement={colorEnhancement}
+          handleColorEnhancementChange={handleColorEnhancementChange}
+          sharpening={sharpening}
+          handleSharpeningChange={handleSharpeningChange}
+          isLoading={isLoading}
+          handleSubmit={handleSubmit}
         />
-      ) : null}
-    </div>
-    <AdSense.Google
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : resultImage ? (
+          <ResultImage
+            resultImage={resultImage}
+            handleSaveImage={handleSaveImage}
+          />
+        ) : null}
+      </div>
+      <AdSense.Google
         client="pub-9649393144931809"
         slot="your-ad-unit-id"
         style={{ display: 'block' }}
         format="auto"
         responsive="true"
       />
-  </div>
-);
+    </div>
+  );
 };
 
 export default App;

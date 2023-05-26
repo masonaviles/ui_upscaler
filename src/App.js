@@ -4,10 +4,10 @@ import ImageUploader from "./components/ImageUploader";
 import SettingsForm from "./components/SettingsForm";
 import ResultImage from "./components/ResultImage";
 import LoadingSpinner from "./components/LoadingSpinner";
-import AdSense from 'react-adsense';
 import "./App.css";
 
 const App = () => {
+  const [isIncognito, setIsIncognito] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [sizeFactor, setSizeFactor] = useState(2);
   const [noiseCancellation, setNoiseCancellation] = useState(0);
@@ -127,6 +127,15 @@ const App = () => {
   };
 
   useEffect(() => {
+    try {
+      localStorage.setItem('test', 'test');
+      localStorage.removeItem('test');
+    } catch (error) {
+      setIsIncognito(true);
+    }
+  }, []);
+
+  useEffect(() => {
     const storedApiRequests = localStorage.getItem('apiRequests');
     console.log('Retrieved API requests:', storedApiRequests);
   
@@ -139,8 +148,16 @@ const App = () => {
     console.log('Setting API requests:', apiRequests);
     localStorage.setItem('apiRequests', apiRequests.toString());
   }, [apiRequests]);
-  
 
+  if (isIncognito) {
+    return (
+      <div className="container">
+        <h1>This App is disabled in incognito mode.</h1>
+        <p>Please disable incognito mode to use this app.</p>
+      </div>
+    );
+  }
+  
   // Render
   return (
     <div className="container h-screen mx-auto">
@@ -172,13 +189,6 @@ const App = () => {
           />
         ) : null}
       </div>
-      <AdSense.Google
-        client="pub-9649393144931809"
-        slot="your-ad-unit-id"
-        style={{ display: 'block' }}
-        format="auto"
-        responsive="true"
-      />
     </div>
   );
 };

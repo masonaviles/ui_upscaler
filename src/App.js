@@ -174,7 +174,7 @@ const App = () => {
     checkIncognitoMode();
   }, []);
 
-  if (isIncognito) {
+  if (!isIncognito) {
     return (
       <div className="container">
         <h1>This App cannot be used in incognito mode.</h1>

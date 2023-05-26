@@ -142,9 +142,21 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const isChromeIncognito = () => {
+    const isMobileChromeIncognito = () => {
       return new Promise((resolve) => {
-        const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+        if ('storage' in navigator && 'estimate' in navigator.storage) {
+          navigator.storage.estimate().then(({ quota }) => {
+            resolve(quota < 120000000); // Quota less than 120MB indicates incognito mode in Chrome
+          });
+        } else {
+          resolve(false); // Storage API not supported, cannot determine incognito mode
+        }
+      });
+    };
+  
+    const isMobileSafariIncognito = () => {
+      return new Promise((resolve) => {
+        const fs = window.webkitRequestFileSystem;
         if (!fs) {
           resolve(false); // FileSystem API not supported, cannot determine incognito mode
         } else {
@@ -157,14 +169,26 @@ const App = () => {
         }
       });
     };
-
+  
     const checkIncognitoMode = async () => {
-      const isInIncognito = await isChromeIncognito();
+      let isInIncognito = false;
+  
+      // Check for mobile Chrome
+      if (navigator.userAgent.includes('Chrome')) {
+        isInIncognito = await isMobileChromeIncognito();
+      }
+      
+      // Check for mobile Safari
+      if (navigator.userAgent.includes('Safari')) {
+        isInIncognito = await isMobileSafariIncognito();
+      }
+  
       setIsIncognito(isInIncognito);
     };
-
+  
     checkIncognitoMode();
   }, []);
+  
 
   useEffect(() => {
     const storedApiRequests = localStorage.getItem('apiRequests');

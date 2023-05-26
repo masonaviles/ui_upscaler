@@ -149,10 +149,35 @@ const App = () => {
     localStorage.setItem('apiRequests', apiRequests.toString());
   }, [apiRequests]);
 
+  useEffect(() => {
+    const isChromeIncognito = () => {
+      return new Promise((resolve) => {
+        const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+        if (!fs) {
+          resolve(false); // FileSystem API not supported, cannot determine incognito mode
+        } else {
+          fs(
+            window.TEMPORARY,
+            100,
+            () => resolve(false), // FileSystem API supported, not in incognito mode
+            () => resolve(true) // FileSystem API supported, in incognito mode
+          );
+        }
+      });
+    };
+
+    const checkIncognitoMode = async () => {
+      const isInIncognito = await isChromeIncognito();
+      setIsIncognito(isInIncognito);
+    };
+
+    checkIncognitoMode();
+  }, []);
+
   if (isIncognito) {
     return (
       <div className="container">
-        <h1>This App is disabled in incognito mode.</h1>
+        <h1>This App cannot be used in incognito mode.</h1>
         <p>Please disable incognito mode to use this app.</p>
       </div>
     );

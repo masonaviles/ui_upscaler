@@ -53,7 +53,7 @@ const App = () => {
     const options = {
       method: 'POST',
       headers: {
-        'X-RapidAPI-Key': '810b826f54mshb2e4e8eab18545fp13dd8ajsn9dcd2fcf7fbe',
+        'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
         'X-RapidAPI-Host': 'ai-picture-upscaler.p.rapidapi.com'
       },
       body: data
